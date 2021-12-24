@@ -29,57 +29,63 @@ export default function Signup() {
             })
             .then(() => {
               History.push("/login");
-            });
-        });
-      });
+            }).catch((err)=>{
+              alert(err.message)
+            })
+        }).catch((err)=>{
+          alert(err.message)
+        })
+      }).catch((err)=>{
+        alert(err.message)
+      })
   };
   return (
     <div>
       <div className="signupParentDiv">
         <img width="200px" height="200px" src={Logo}></img>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="fname">Username</label>
+          <label htmlFor="uname">Username</label>
           <br />
           <input
             className="input"
             type="text"
-            id="fname"
+            id="uname"
             name="name"
             value={Username}
             onChange={(e) => setUsername(e.target.value)}
             defaultValue="John"
           />
           <br />
-          <label htmlFor="fname">Email</label>
+          <label htmlFor="email">Email</label>
           <br />
           <input
             className="input"
             type="email"
-            id="fname"
+            id="email"
             name="email"
             value={Email}
             onChange={(e) => setEmail(e.target.value)}
             defaultValue="John"
           />
           <br />
-          <label htmlFor="lname">Phone</label>
+          <label htmlFor="phone">Phone</label>
           <br />
           <input
             className="input"
             type="number"
-            id="lname"
+            id="phone"
             name="phone"
             value={Phone}
             onChange={(e) => setPhone(e.target.value)}
             defaultValue="Doe"
           />
           <br />
-          <label htmlFor="lname">Password</label>
+          <label htmlFor="pswd">Password</label>
           <br />
           <input
             className="input"
             type="password"
-            id="lname"
+            id="pswd"
             name="password"
             value={Password}
             onChange={(e) => setPassword(e.target.value)}
@@ -89,7 +95,9 @@ export default function Signup() {
           <br />
           <button type="submit">Signup</button>
         </form>
-        <a>Login</a>
+        <a onClick={()=>{
+          History.push('/login')
+        }}> Login</a>
       </div>
     </div>
   );

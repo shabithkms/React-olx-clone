@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Heart from '../../assets/Heart';
+import { FirebaseContext } from '../../store/Context';
+import { PostContext } from '../../store/PostContext';
 import './Post.css';
 
 function Posts() {
-
+  const { firebase } = useContext(FirebaseContext)
+  const [Products, setProducts] = useState([])
+  const { setPostDetails } = useContext(PostContext)
+  console.log(setPostDetails);
+  const History = useHistory()
+  useEffect(() => {
+    firebase.firestore().collection('products').get().then((data) => {
+      const allPost = data.docs.map((product) => {
+        return {
+          ...product.data(),
+          id: product.id
+        }
+      })
+      setProducts(allPost)
+    })
+  }, [])
   return (
     <div className="postParentDiv">
       <div className="moreView">
@@ -13,24 +31,30 @@ function Posts() {
           <span>View more</span>
         </div>
         <div className="cards">
-          <div
-            className="card"
-          >
-            <div className="favorite">
-              <Heart></Heart>
-            </div>
-            <div className="image">
-              <img src="../../../Images/R15V3.jpg" alt="" />
-            </div>
-            <div className="content">
-              <p className="rate">&#x20B9; 250000</p>
-              <span className="kilometer">Two Wheeler</span>
-              <p className="name"> YAMAHA R15V3</p>
-            </div>
-            <div className="date">
-              <span>Tue May 04 2021</span>
-            </div>
-          </div>
+          {
+            Products.map(product => {
+              return <div
+                className="card" onClick={() => {
+                  setPostDetails(product)
+                  History.push('/view')
+                }}>
+                <div className="favorite">
+                  <Heart></Heart>
+                </div>
+                <div className="image">
+                  <img src={product.url} alt="" />
+                </div>
+                <div className="content">
+                  <p className="rate">&#x20B9; {product.Price}</p>
+                  <span className="kilometer">{product.Category}</span>
+                  <p className="name"> {product.Name}</p>
+                </div>
+                <div className="date">
+                  <span>{product.createdAt}</span>
+                </div>
+              </div>
+            })
+          }
         </div>
       </div>
       <div className="recommendations">
@@ -38,22 +62,30 @@ function Posts() {
           <span>Fresh recommendations</span>
         </div>
         <div className="cards">
-          <div className="card">
-            <div className="favorite">
-              <Heart></Heart>
-            </div>
-            <div className="image">
-              <img src="../../../Images/R15V3.jpg" alt="" />
-            </div>
-            <div className="content">
-              <p className="rate">&#x20B9; 250000</p>
-              <span className="kilometer">Two Wheeler</span>
-              <p className="name"> YAMAHA R15V3</p>
-            </div>
-            <div className="date">
-              <span>10/5/2021</span>
-            </div>
-          </div>
+          {
+            Products.map(product => {
+              return <div
+                className="card" onClick={() => {
+                  setPostDetails(product)
+                  History.push('/view')
+                }}>
+                <div className="favorite">
+                  <Heart></Heart>
+                </div>
+                <div className="image">
+                  <img src={product.url} alt="" />
+                </div>
+                <div className="content">
+                  <p className="rate">&#x20B9; {product.Price}</p>
+                  <span className="kilometer">{product.Category}</span>
+                  <p className="name"> {product.Name}</p>
+                </div>
+                <div className="date">
+                  <span>{product.createdAt}</span>
+                </div>
+              </div>
+            })
+          }
         </div>
       </div>
     </div>

@@ -10,8 +10,8 @@ import { AuthContext, FirebaseContext } from "../../store/Context";
 import { useHistory } from "react-router-dom";
 function Header() {
   const { user } = useContext(AuthContext);
-  const {firebase}=useContext(FirebaseContext)
-  const History=useHistory()
+  const { firebase } = useContext(FirebaseContext);
+  const History = useHistory();
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
@@ -38,16 +38,47 @@ function Header() {
           <span> ENGLISH </span>
           <Arrow></Arrow>
         </div>
-        <div className="loginPage">
-          <span>{user ? `Hi, ${user.displayName}` : <span onClick={()=>{
-            History.push('/login')
-          }}>Login</span>}</span>
-          <hr />          
+        {/* <div className="loginPage">
+         
+          <hr />
+        </div> */}
+        {/* {user && (
+          <span
+            onClick={() => {
+              firebase.auth().signOut();
+              History.push("/login");
+            }}
+          >
+            Logout
+          </span>
+        )} */}
+        <div class="dropdown show">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {user ? (
+              `Hi, ${user.displayName}`
+            ) : (
+              <span
+                onClick={() => {
+                  History.push("/login");
+                }} >
+                Login
+              </span>)}
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="#">  {user && (
+              <span
+                onClick={() => {
+                  firebase.auth().signOut();
+                  History.push("/login");
+                }}
+              >
+                Logout
+              </span>
+            )}</a>
+
+          </div>
         </div>
-        { user&&<span onClick={()=>{
-          firebase.auth().signOut();
-          History.push('/login')
-        }}>Logout</span>}
 
         <div className="sellMenu">
           <SellButton></SellButton>

@@ -3,14 +3,14 @@ import { useContext } from "react/cjs/react.development";
 import { FirebaseContext } from "../../store/Context";
 import Logo from "../../olx-logo.png";
 import "./Login.css";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 
 function Login() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const { firebase } = useContext(FirebaseContext);
-  const History=useHistory()
+  const History = useHistory()
   const handleLogin = (e) => {
     e.preventDefault();
     firebase
@@ -55,7 +55,11 @@ function Login() {
           <br />
           <button>Login</button>
         </form>
-        <a>Signup</a>
+        <a onClick={() => {
+          History.push('/signup')
+        }
+
+        }>Signup</a>
       </div>
     </div>
   );
